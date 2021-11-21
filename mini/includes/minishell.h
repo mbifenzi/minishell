@@ -6,7 +6,7 @@
 /*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 11:26:17 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/16 19:57:29 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/21 23:28:30 by mbifenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,9 @@ void        clear_all(t_main *main);
 int			ft_error(char *c);
 void        ft_fres(char **b, int a);
 
-void        bi_execute(t_main *main);
+int        bi_execute(t_main *main, char **env);
+void		child_process1(t_command *cmd, char **env);
+void   		 middle_exec(int *fd, t_command *cmd);
 int			g_status_code;
 
 #endif

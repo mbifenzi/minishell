@@ -6,7 +6,7 @@
 /*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 10:57:58 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/17 00:30:04 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/21 23:29:08 by mbifenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int main(int ac, char **argv, char **envm)
         	i = 0;
        	parse(main);
 		// execute(main);
-		bi_execute(main);
+		if (bi_execute(main, envm) == - 1)
+			continue ;
 		add_history(main->line);
 		free(main->line);
     	clear_all(main);

@@ -6,7 +6,7 @@
 /*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 16:39:02 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/24 05:17:56 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/24 21:19:29 by mbifenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,11 @@ int	execute(t_main *main)
 {
 	t_command	*cmd1;
 	t_tools		*tools;
-	int			i;
 	int			in;
 	int			out;
 
 	in = dup(STDIN_FILENO);
 	out = dup(STDOUT_FILENO);
-	i = 0;
 	tools = malloc(sizeof(t_tools));
 	garbage(&g, tools);
 	tools_init(main->count, tools);

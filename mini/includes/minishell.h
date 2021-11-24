@@ -6,7 +6,7 @@
 /*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 11:26:17 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/24 05:17:43 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/24 21:22:38 by mbifenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,11 +169,10 @@ int			pwd(char **env);
 void		tools_init(int i, t_tools *tools);
 void		execute_pipe(t_tools *tools, t_command *cmd, char ***env);
 void		ft_free_tools(t_tools *tools);
-void	execute_lcmd(t_tools *tools, t_command *cmd, char ***env);
-int	        check_option(char **args);
-void	all_waits(t_main *main, t_tools *tools);
-
-
+void		execute_lcmd(t_tools *tools, t_command *cmd, char ***env);
+int			check_option(char **args);
+void		all_waits(t_main *main, t_tools *tools);
+/*------------------------------ MINISHELL - exec 2 ----------------------*/
 int			echoo(char **args);
 void		error(char *c);
 char		*find_path(char *cmd, char *to_find, char **envp);
@@ -181,10 +180,10 @@ void		cmd_call(t_command *cmd, char **envm);
 void		clear_all(t_main *main);
 int			execute(t_main *main);
 char		*find_path2(char *cmd, char **env);
-char        *find_path3(char *cmd, char **env);
+char		*find_path3(char *cmd, char **env);
 char		**delete_line(char **env, char *c);
 int			cd(char **cmd, char ***env);
-int         replace(char ***env, char *c, char *to_replace);
+int			replace(char ***env, char *c, char *to_replace);
 int			export_unset(char **args, char ***env, int mode);
 int			check_syntax(char *arg);
 int			redirect_to(t_command *cmd, t_tools *tools);
@@ -196,14 +195,13 @@ void		check_cmd(char *inpt, char **cmd, char **envm);
 void		handle_sigint(int sigint);
 int			__get_var(t_norm op, int value);
 /*------------------------------------ MINISHELL FREE ----------------------*/
-void        free_cmd(t_main *main);
-void        free_redirect(t_command *cmd);
-void        free_argument(char **argument);
-void        clear_all(t_main *main);
+void		free_cmd(t_main *main);
+void		free_redirect(t_command *cmd);
+void		free_argument(char **argument);
+void		clear_all(t_main *main);
 int			ft_error(char *c);
-void        ft_fres(char **b, int a);
-void        garbage(t_garbage **garbage, void *address);
-
+void		ft_fres(char **b, int a);
+void		garbage(t_garbage **garbage, void *address);
 int			g_status_code;
 
 #endif

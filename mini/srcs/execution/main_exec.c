@@ -6,7 +6,7 @@
 /*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 16:39:02 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/24 05:10:24 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/24 05:17:56 by mbifenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,6 @@ int	execute(t_main *main)
 	}
 	execute_lcmd(tools, cmd1, &main->env);
 	tools->i++;
-	while (i <= main->count)
-	{
-		waitpid(tools->pid[i], NULL, 0);
-		i++;
-	}
+	all_waits(main, tools);
 	return (execute_helper(in, out, tools));
 }

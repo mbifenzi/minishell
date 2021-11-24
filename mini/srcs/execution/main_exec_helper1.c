@@ -6,11 +6,23 @@
 /*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 02:20:46 by mbifenzi          #+#    #+#             */
-/*   Updated: 2021/11/24 05:10:38 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/24 05:18:04 by mbifenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	all_waits(t_main *main, t_tools *tools)
+{
+	int	i;
+
+	i = 0;
+	while (i <= main->count)
+	{
+		waitpid(tools->pid[i], NULL, 0);
+		i++;
+	}
+}
 
 void	execute_lcmd(t_tools *tools, t_command *cmd, char ***env)
 {

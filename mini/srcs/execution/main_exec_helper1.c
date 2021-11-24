@@ -6,7 +6,7 @@
 /*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 02:20:46 by mbifenzi          #+#    #+#             */
-/*   Updated: 2021/11/24 02:23:59 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/24 05:10:38 by mbifenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,30 @@ void	ft_free_tools(t_tools *tools)
 	tools->pid = NULL;
 	free(tools);
 	tools = NULL;
+}
+
+int	echoo(char **args)
+{
+	int	i;
+	int	e;
+	int	sa;
+
+	sa = ft_strdlen(args);
+	if (sa == 1)
+		write(1, "\n", 1);
+	else if (sa >= 2)
+	{
+		i = check_option(args);
+		e = i;
+		while (args[i])
+		{
+			write(1, args[i], ft_strlen(args[i]));
+			if (args[i + 1] != NULL)
+				write(1, " ", 1);
+			i++;
+		}
+		if (e == 1)
+			write(1, "\n", 1);
+	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 16:39:02 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/24 02:28:22 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/24 05:10:24 by mbifenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,6 @@ int	check_option(char **args)
 {
 	if (!ft_strncmp(args[1], "-n", 2))
 		return (2);
-	return (1);
-}
-
-int	echoo(char **args)
-{
-	int	i;
-	int	e;
-	int	sa;
-
-	sa = ft_strdlen(args);
-	if (sa == 1)
-		write(1, "\n", 1);
-	else if (sa >= 2)
-	{
-		i = check_option(args);
-		e = i;
-		while (args[i])
-		{
-			write(1, args[i], ft_strlen(args[i]));
-			if (args[i + 1] != NULL)
-				write(1, " ", 1);
-			i++;
-		}
-		if (e == 1)
-			write(1, "\n", 1);
-	}
 	return (1);
 }
 
@@ -87,6 +61,16 @@ char	*find_path3(char *cmd, char **env)
 	return (path);
 }
 
+int	execute_helper(int in, int out, t_tools *tools)
+{
+	dup2(in, 1);
+	dup2(out, 0);
+	close(in);
+	close(out);
+	ft_free_tools(tools);
+	return (1);
+}
+
 int	execute(t_main *main)
 {
 	t_command	*cmd1;
@@ -117,10 +101,5 @@ int	execute(t_main *main)
 		waitpid(tools->pid[i], NULL, 0);
 		i++;
 	}
-	dup2(in, 1);
-	dup2(out, 0);
-	close(in);
-	close(out);
-	ft_free_tools(tools);
-	return (1);
+	return (execute_helper(in, out, tools));
 }

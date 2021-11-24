@@ -6,7 +6,7 @@
 /*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 11:26:17 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/21 23:28:30 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/24 02:31:11 by mbifenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,24 @@
 	struct s_env	*next;
 }					char *;*/
 
+typedef struct s_garbage
+{
+    void *garb;
+    struct s_garbage *next;
+
+}               t_garbage;
+
+typedef struct s_tools
+{
+    int fd[2];
+    int read;
+    int write;
+    int *pid;
+    int in;
+    int i;
+    int out;
+}   t_tools;
+
 typedef struct s_redirect
 {
         char	*line;
@@ -36,8 +54,10 @@ typedef struct s_redirect
        //char  **argument;
         int     type;
         int		flag;
+        char	**env;
         struct	s_redirect *nextred;
 }               t_redirect;
+
 
 typedef struct  s_command
 {
@@ -60,9 +80,18 @@ typedef struct	s_main
     int				count;
     int				t[300];
     t_command       *cmd;
+
 }				t_main;
 
+typedef enum e_norm
+{
+	GETEXIT,
+	SETEXIT,
+	GETPID,
+	SETPID
+ } t_norm;
 
+t_garbage *g;
 
 /* ----------------------- libft util --------------------------*/
 void		ft_putstr_fd(char *s, int fd);
@@ -82,9 +111,12 @@ char		*ft_joinchar(char *a, char c);
 char		*ft_strcat(char *dest, char *src);
 char		**strdup2(char **b, int e);
 char		**strdup23(char **a, char *s);
+char		**strdup24(char **b);
 int			ft_strdlen(char **a);
 int			ft_isdigit(int c);
 int			ft_isalpha(int c);
+int         ft_strcmp(const char *s1, const char *s2);
+char		*ft_itoa(int n);
 /*-------------------------- command list minupilation -----------------*/
 
 t_command	*new_stack(char *a);
@@ -95,7 +127,7 @@ t_command	*delete_first(t_command *a);
 /*---------------------------------------------------------------------*/
 
 /*-------------------------- redirect list minupilation -----------------*/
-t_redirect	*new_stack_red(char *a, int i);
+t_redirect	*new_stack_red(char *a, int i, char **env);
 int			ft_lstsize2(t_redirect *lst);
 void		ft_lstadd_front2(t_redirect **alst, t_redirect *new);
 void		ft_lstadd_back2(t_redirect **alst, t_redirect *new);
@@ -110,8 +142,8 @@ char		*ignore_quotes(char *a, int c);
 int			env_init(t_main *main, char **env_array);
 char		**ignore_quotes1(char **s, char * *env);
 int			check_next(char *c);
-int			redirect(t_command *cmd, int i);
-int			get_type(t_command *cmd);
+int			redirect(t_command *cmd, int i, char **env);
+int			get_type(t_command *cmd, char **env);
 int			get_argv(t_command *cmd, char * *env);
 char		**getter(t_redirect **red, int i, char c, char ***arg);
 int			check_eol(char *c, int type);
@@ -130,22 +162,36 @@ char		*dollar_prefix(char *s, int *i, char *res, int open);
 char		*dollar_cases(char *res, char *s, char * *env, int *i);
 char		*check_env(char *c, char *res, char * *env);
 /*------------------------------ MINISHELL - exec ----------------------*/
-void		error(void);
+int			non_builtin(t_command *cmd1, char **env);
+int			builtin(t_command *cmd1, char ***env);
+int			env_c(char **env);
+int			pwd(char **env);
+void		tools_init(int i, t_tools *tools);
+void		execute_pipe(t_tools *tools, t_command *cmd, char ***env);
+void		ft_free_tools(t_tools *tools);
+void	execute_lcmd(t_tools *tools, t_command *cmd, char ***env);
+
+int			echoo(char **args);
+void		error(char *c);
 char		*find_path(char *cmd, char *to_find, char **envp);
 void		cmd_call(t_command *cmd, char **envm);
 void		clear_all(t_main *main);
 int			execute(t_main *main);
 char		*find_path2(char *cmd, char **env);
+char        *find_path3(char *cmd, char **env);
 char		**delete_line(char **env, char *c);
 int			cd(char **cmd, char ***env);
 int         replace(char ***env, char *c, char *to_replace);
-int			export(char **args, char ***env);
+int			export_unset(char **args, char ***env, int mode);
 int			check_syntax(char *arg);
+int			redirect_to(t_command *cmd, t_tools *tools);
 /* Bonus functions */
 int			open_file(char *argv, int i);
 void		arg_err(void);
 void		check_cmd(char *inpt, char **cmd, char **envm);
-
+/*-----------------------------------signals--------------------------------*/
+void		handle_sigint(int sigint);
+int			__get_var(t_norm op, int value);
 /*------------------------------------ MINISHELL FREE ----------------------*/
 void        free_cmd(t_main *main);
 void        free_redirect(t_command *cmd);
@@ -153,10 +199,8 @@ void        free_argument(char **argument);
 void        clear_all(t_main *main);
 int			ft_error(char *c);
 void        ft_fres(char **b, int a);
+void        garbage(t_garbage **garbage, void *address);
 
-int        bi_execute(t_main *main, char **env);
-void		child_process1(t_command *cmd, char **env);
-void   		 middle_exec(int *fd, t_command *cmd);
 int			g_status_code;
 
 #endif

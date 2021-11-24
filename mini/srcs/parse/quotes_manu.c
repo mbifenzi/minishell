@@ -6,7 +6,7 @@
 /*   By: mokhames <mokhames@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 11:57:19 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/13 19:01:23 by mokhames         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:10:52 by mokhames         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ char    *ignore_quotes(char *a, int e)
 	open = 0;
 	j = 0;
 
-
-	if (!ft_strchr(a,'\'') && !ft_strchr(a,'\"'))
+	
+	if (!a || (!ft_strchr(a,'\'') && !ft_strchr(a,'\"')))
 		return (a); 
 	c = ft_strdup("");
 	while (a[i])
@@ -65,50 +65,48 @@ char    *ignore_quotes(char *a, int e)
 	return (c);
 
 }
-char		**downgrad(char **s, int i)
-{
-	int j;
-	int sa;
 
-	j = i + 1;
-	sa = ft_strdlen(s);
-	//free(s[i - 1])")
-	while (i < sa)
-	{
-		free(s[i]);
-		s[i] = NULL;
-		s[i] = ft_strdup(s[i + 1]);
-		i++;
-	}
-	free(s[i]);
-	s[i] = NULL;
-	return (s);	
+char        **downgrad(char **s, int i, int sa)
+{
+    int        j;
+    int        k;
+    char		**new_s;
+    
+    j = 0;
+    k = 0;
+    new_s = (char **)malloc(sa * sizeof(char *));
+	garbage(&g, new_s);
+    while (j < sa - 1)
+    {
+        if (j == i)
+          k++;
+        new_s[j] = ft_strdup(s[k]);
+        j++;
+        k++;
+    }
+    new_s[j] = NULL;
+   // ft_fres(s, 1);
+    return (new_s);    
 }
 
 char        **ignore_quotes1(char **s, char **env)
 {
-	int i;
-	char *c;
-	char **a;
-
+	int		i;
+	int		e;
+	
+	e = ft_strdlen(s);
 	i = 0;
-	(void)env;
 	while (s[i])
 	{
-		c = ft_strdup(s[i]);
 		s[i] = dollar_check(s[i], env);
-		if ((ft_strncmp(c, s[i], ft_strlen(c))) && ft_strncmp(s[0], "echo", 4))
+		if (!s[i])
 		{
-			a = ft_split1(s[i], ' ');
-			s = strdjoin(1 ,s, a);
-			s = downgrad(s, i);
-			ft_fres(a,1);
+			s = downgrad(s, i, e);
+			e--;
+			continue;
 		}
 		s[i] = ignore_quotes(s[i], 0);
-		free(c);
-		c = NULL;
 		i++;
 	}
-	i = 0;
 	return (s);
 }

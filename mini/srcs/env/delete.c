@@ -6,7 +6,7 @@
 /*   By: mokhames <mokhames@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 16:33:53 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/12 22:43:06 by mokhames         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:09:34 by mokhames         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,11 @@ char       **delete_line(char **env, char *c)
 	if (!find_path2(c, env))
 		return (env);
 	new_env = (char **)malloc((sa) * sizeof(char *));
+	garbage(&g, c);
 	while (i < sa - 1)
 	{
-		if (!ft_strncmp(env[i], c, ft_strlen(c) - 1))
-		{
-			printf("i went in\n");
+		if (!ft_strcmp(env[i], c))
 			i++;
-		}
 		new_env[j] = ft_strdup(env[i]);
 		i++;
 		j++;
@@ -40,6 +38,8 @@ char       **delete_line(char **env, char *c)
 	ft_fres(env, 1);
 	return (new_env);
 }
+
+
 
 int	replace(char ***env, char *c, char *to_replace)
 {

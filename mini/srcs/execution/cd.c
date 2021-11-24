@@ -6,7 +6,7 @@
 /*   By: mokhames <mokhames@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 10:11:34 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/12 22:41:55 by mokhames         ###   ########.fr       */
+/*   Updated: 2021/11/23 21:03:32 by mokhames         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ int	cd(char **cmd, char ***env)
 {
     char *noldpwd;
     char *myp;
+    char    *p;
 
     myp = getcwd(NULL, 0);
+    garbage(&g, myp);
     if (!find_path2("OLDPWD", *env))
     {
         noldpwd = ft_strjoin("OLDPWD=", myp);
@@ -46,7 +48,10 @@ int	cd(char **cmd, char ***env)
     {
         replace(env,"OLDPWD=",myp);
         chdir(find_path2("HOME", *env));
-        noldpwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+        p = getcwd(NULL, 0);
+        noldpwd = ft_strjoin("PWD=", p);
+        free(p);
+        p = NULL;
         replace(env, "PWD=", noldpwd);
         free(noldpwd);
         noldpwd = NULL;
@@ -55,7 +60,10 @@ int	cd(char **cmd, char ***env)
 	else if(!chdir(cmd[1]))
     {
         replace(env,"OLDPWD=",myp);
-		noldpwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+		 p = getcwd(NULL, 0);
+        noldpwd = ft_strjoin("PWD=", p);
+        free(p);
+        p = NULL;
         replace(env, "PWD=", noldpwd);
         free(noldpwd);
         noldpwd = NULL;
@@ -67,6 +75,7 @@ int	cd(char **cmd, char ***env)
 		write(1, ": No such file or directory\n", 29);
 		return (127);
 	}
-    
+    free(myp);
+    myp = NULL;
 	return (1);
 }

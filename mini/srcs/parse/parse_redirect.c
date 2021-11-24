@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mokhames <mokhames@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 10:59:26 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/17 00:24:55 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/22 15:07:24 by mokhames         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		file_arg(t_command *cmd, char **env)
 
 	i = 0;
 	(void)env;
-	if (!get_type(cmd))
+	if (!get_type(cmd, env))
 		return (0);
 	if (!(get_argv(cmd, env)))
 		return (0);
@@ -102,25 +102,25 @@ int   parse_redirection(t_command *cmd, char **env)
 	i = 0;
 	while (cmd)
 	{   
-			get_count_index(cmd);
-			if (!file_arg(cmd, env))
-				return (0);
-	while (cmd->redirect)
-	{
-		printf("line = %s\n",cmd->redirect->line);
-		printf("file = %s\n",cmd->redirect->file);
-		printf("type = %d\n",cmd->redirect->type);
-		cmd->redirect = cmd->redirect->nextred;
-	}
-	i = 0;
-	while (cmd->argument[i])
-	{
-		printf("argument[%d] = %s\n ",i, cmd->argument[i]);
-		i++;
-	}
-		i = 0;
-	printf("--------------------------------------------\n\3");
-			cmd = cmd->nextcmd;
+		get_count_index(cmd);
+		if (!file_arg(cmd, env))
+			return (0);
+// 			   while (cmd->redirect)
+//    {
+//    printf("line = %s\n",cmd->redirect->line);
+//    printf("file = %s\n",cmd->redirect->file);
+//    printf("type = %d\n",cmd->redirect->type);
+//    cmd->redirect = cmd->redirect->nextred;
+//    }
+//    i = 0;
+//    while (cmd->argument[i])
+//    {
+//    printf("argument[%d] = %s\n ",i, cmd->argument[i]);
+//    i++;
+//    }
+//    i = 0;
+//    printf("--------------------------------------------\n\3");
+		cmd = cmd->nextcmd;
 	}
 	return (1);   
 }

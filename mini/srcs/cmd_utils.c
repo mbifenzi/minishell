@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mokhames <mokhames@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 15:29:35 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/16 19:33:11 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/23 21:02:51 by mokhames         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*find_path(char *cmd, char *to_find, char **envp)
 	char	*part_path;
 
 	i = 0;
+	path = NULL;
 	while (ft_strnstr(envp[i], to_find , 4) == 0)
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
@@ -33,12 +34,14 @@ char	*find_path(char *cmd, char *to_find, char **envp)
 			return (path);
 		i++;
 	}
+	free(path);
 	return (0);
 }
 
-void	error(void)
+void	error(char *c)
 {
-	write(1, "command not found\n", 19);
+	write(2, c, ft_strlen(c));
+	write(2, " command not found\n", 19);
 	exit(0);
 }
 
@@ -47,7 +50,10 @@ void	cmd_call(t_command *cmd, char **envm)
 	char	*file_path;
 
 	//cmd = ft_split(argv, ' ');
-	file_path = find_path(cmd->fcmd,"PATH", envm);
+	 if (!ft_strncmp(cmd->fcmd, "./", 2))
+	 	file_path = ft_strdup(cmd->fcmd);
+	 else
+		file_path = find_path(cmd->fcmd,"PATH", envm);
 	if (execve(file_path, cmd->argument, envm) == -1)
-		return (error());
+		return (error(cmd->argument[0]));
 }

@@ -6,7 +6,7 @@
 /*   By: mbifenzi <mbifenzi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 11:26:17 by mokhames          #+#    #+#             */
-/*   Updated: 2021/11/24 02:31:11 by mbifenzi         ###   ########.fr       */
+/*   Updated: 2021/11/24 05:12:23 by mbifenzi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,8 @@ void		tools_init(int i, t_tools *tools);
 void		execute_pipe(t_tools *tools, t_command *cmd, char ***env);
 void		ft_free_tools(t_tools *tools);
 void	execute_lcmd(t_tools *tools, t_command *cmd, char ***env);
+int	        check_option(char **args);
+
 
 int			echoo(char **args);
 void		error(char *c);
